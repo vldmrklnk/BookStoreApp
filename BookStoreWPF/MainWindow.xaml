@@ -6,10 +6,40 @@
         xmlns:local="clr-namespace:BookStoreWPF"
         mc:Ignorable="d"
         Title="BookStore" Height="573.061" Width="1099.388" Background="Gray">
-	<Grid>
-		<TextBox x:Name="textBox1" Height="48" Margin="333,104,601.8,391.2" TextChanged="TextBox_TextChanged"/>
-		<Button x:Name="button1" Margin="509,104,445.8,391.2" Content="Найти" Click="Button_Click"></Button>
-		<Image Name="imgDynamic" Margin="278,197,371.8,42.2"  />
-	</Grid>
+	<TabControl x:Name = "bookCRUD">
+		<TabItem x:Name="allBooks" Selector.SelectionChanged="AllBooks_SelectionChanged">
+			<TabItem.Header>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Margin="3">ALL</TextBlock>
+				</StackPanel>
+			</TabItem.Header>
+			<TabItem.Content>
+				<ListView Name="booksList">
+					<WrapPanel >
+						<Grid Height="165" Width="211">
+							<TextBlock x:Name="bookName_allTab" Margin="20,10,20,121"></TextBlock>
+							<Image Name="image" RenderTransformOrigin="4.967,0.929" Margin="20,49,20,0"/>
+						</Grid>
+					</WrapPanel>
+				</ListView>
+			</TabItem.Content>
+		</TabItem>
+		<TabItem x:Name="findBooks" >
+			<TabItem.Header>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Margin="3">FIND</TextBlock>
+				</StackPanel>
+			</TabItem.Header>
+			<TabItem.Content>
+				<Grid>
+					<TextBox x:Name="textBox1" Margin="278,40,519.2,430.8" TextChanged="TextBox_TextChanged"/>
+					<TextBlock x:Name="bookName" Margin="278,111,339.2,359.8"/>
+					<Button x:Name="button1" Margin="592,40,339.2,430.8" Content="Найти" Click="Button_Click"></Button>
+					<Image Name="imgDynamic" Margin="278,197,339.2,41.8"/>
+				</Grid>
+			</TabItem.Content>
+		</TabItem>
+		<TabItem Header="Add"/>
+	</TabControl>
 
 </Window>

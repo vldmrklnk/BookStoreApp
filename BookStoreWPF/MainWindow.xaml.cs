@@ -55,6 +55,47 @@ namespace BookStoreWPF
 
 						Uri resourceUri = new Uri($"{book.Path}");
 						imgDynamic.Source = new BitmapImage(resourceUri);
+
+						bookName.Text = book.Name;
+					}
+
+					catch (JsonException) // Invalid JSON
+					{
+						throw new Exception("Invalid JSON.");
+					}
+				}
+
+				else
+				{
+					throw new Exception("HTTP Response was invalid and cannot be deserialised.");
+				}
+			}
+		}
+
+		private async void AllBooks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			using (HttpClient client = new HttpClient())
+			{
+				var response = await client.GetAsync($"https://localhost:44352/api/books");
+				response.EnsureSuccessStatusCode();
+
+				if (response.Content is object && response.Content.Headers.ContentType.MediaType == "application/json")
+				{
+					var contentStream = await response.Content.ReadAsStreamAsync();
+					var streamReader = new StreamReader(contentStream);
+
+					try
+					{
+						var books = await JsonSerializer.DeserializeAsync<List<Book>>(contentStream,
+													new JsonSerializerOptions { IgnoreNullValues = true, PropertyNameCaseInsensitive = true });
+
+						foreach (var book in books)
+						{
+							Uri resourceUri = new Uri($"{book.Path}");
+							image.Source = new BitmapImage(resourceUri);
+
+							bookName_allTab.Text = book.Name;
+						}
 					}
 
 					catch (JsonException) // Invalid JSON
