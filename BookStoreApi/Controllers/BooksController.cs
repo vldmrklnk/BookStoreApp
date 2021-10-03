@@ -49,7 +49,7 @@ namespace BookStoreApi.Controllers
 				model.Path = String.Format("{0}://{1}{2}{3}", Request.Scheme, Request.Host,Request.PathBase, model.Path);
 			}
 
-			return Ok( new { Body = models });
+			return new JsonResult(models);
 		}
 
 		[HttpGet ("{name}")]
